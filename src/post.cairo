@@ -1,5 +1,4 @@
-use starknet::*;
-use starknet::storage::*;
+use starknet::ContractAddress;
 
 #[derive(Drop, Serde, Copy, starknet::Store)]
 pub struct Post {

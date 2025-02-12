@@ -318,6 +318,18 @@ An example of calling a contract, impersonating another caller address
     erc20.approve(token_sender_address, transfer_value * 2 - 1);
 ```
 
+An exampel of a test that should panic with a short string
+```cairo
+#[test]
+#[should_panic(expected: ('Post does not exist',))]
+fn test_invalid_post_access() {
+    let contract_address = setup();
+    let social_post = IPostDispatcher { contract_address };
+
+    social_post.get_post_author(999); // Non-existent post ID
+}
+```
+
 
 Here is an example of a test using the return values of the setup function above, to test the functionality of the TokenSender contract
 ```cairo
