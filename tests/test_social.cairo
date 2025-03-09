@@ -1,6 +1,6 @@
 use snforge_std::{CheatSpan, ContractClassTrait, DeclareResultTrait, cheat_caller_address, declare};
 use social_network::post::{IPostDispatcher, IPostDispatcherTrait};
-use starknet::{ContractAddress, contract_address_const, get_contract_address};
+use starknet::{ContractAddress, get_contract_address};
 
 fn setup() -> ContractAddress {
     let social_post_class = declare("SocialPost").unwrap().contract_class();
@@ -66,7 +66,7 @@ fn test_like_post() {
     let post_id = social_post.create_post();
 
     // Switch to different user for liking
-    let liker: ContractAddress = contract_address_const::<456>();
+    let liker: ContractAddress = 456.try_into().unwrap();
     cheat_caller_address(social_post.contract_address, liker, CheatSpan::TargetCalls(1));
 
     social_post.like_post(post_id);
@@ -93,7 +93,7 @@ fn test_double_like() {
     let social_post = IPostDispatcher { contract_address };
     let post_id = social_post.create_post();
 
-    let liker: ContractAddress = contract_address_const::<456>();
+    let liker: ContractAddress = 456.try_into().unwrap();
     cheat_caller_address(social_post.contract_address, liker, CheatSpan::TargetCalls(2));
 
     social_post.like_post(post_id);
@@ -107,12 +107,12 @@ fn test_multiple_likes() {
     let post_id = social_post.create_post();
 
     // First liker
-    let liker1: ContractAddress = contract_address_const::<111>();
+    let liker1: ContractAddress = 111.try_into().unwrap();
     cheat_caller_address(social_post.contract_address, liker1, CheatSpan::TargetCalls(1));
     social_post.like_post(post_id);
 
     // Second liker
-    let liker2: ContractAddress = contract_address_const::<222>();
+    let liker2: ContractAddress = 222.try_into().unwrap();
     cheat_caller_address(social_post.contract_address, liker2, CheatSpan::TargetCalls(1));
     social_post.like_post(post_id);
 

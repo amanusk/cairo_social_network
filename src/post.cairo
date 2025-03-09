@@ -21,7 +21,10 @@ pub trait IPost<TContractState> {
 #[starknet::contract]
 pub mod SocialPost {
     use core::num::traits::Zero;
-    use starknet::storage::*;
+    use starknet::storage::{
+        Map, StorageMapReadAccess, StorageMapWriteAccess, StoragePointerReadAccess,
+        StoragePointerWriteAccess, Vec,
+    };
     use starknet::{ContractAddress, get_caller_address};
     use super::Post;
 
@@ -30,6 +33,7 @@ pub mod SocialPost {
         posts: Map<u256, Post>,
         next_post_id: u256,
         user_likes: Map<(u256, ContractAddress), bool>,
+        posts_vec: Map<ContractAddress, Vec<u256>>,
     }
 
     #[event]
